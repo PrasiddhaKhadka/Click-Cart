@@ -1,6 +1,7 @@
 const UserSchema = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const CustomAPIError = require("../errors")
+const {createJwt, isTokenValid} = require('../utils')
 
 const register = async(req,res)=>{
     const {email,name,password} = req.body
@@ -11,7 +12,9 @@ const register = async(req,res)=>{
     }
 
     const user = await UserSchema.create({name, email,password})
-    res.status(StatusCodes.OK).json({msg:'Success',user:user})
+    const tokenUser = {user: name, user_id:user._id}
+    const token = createJwt({payload: tokenUser})
+    res.status(StatusCodes.OK).json({msg:'Success',user:user,token:token})
 }
 
 

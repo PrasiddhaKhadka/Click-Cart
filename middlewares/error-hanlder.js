@@ -3,10 +3,12 @@ const { StatusCodes } = require('http-status-codes');
 
 
 const errorHandler = async(err,req,res,next)=>{
+    console.log(err)
     let customError = {
         statusCode: err.status || StatusCodes.INTERNAL_SERVER_ERROR,
         msg:err.msg || 'Something went wrong'
     }
+
     if(err instanceof CustomAPIError){
         return res.status(err.statusCode).json({msg:err.message})
     }
