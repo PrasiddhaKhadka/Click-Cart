@@ -32,7 +32,7 @@ const userRouters = require('./routes/user-routes')
 app.use('/api/v1/user',userRouters)
 
 const productRouters = require('./routes/product-routes')
-app.use('/api/v1/',productRouters)
+app.use('/api/v1/products',productRouters)
 
 
 app.use(notFound)
