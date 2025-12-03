@@ -6,6 +6,7 @@ const app = express()
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 
 // DATABASE
 const connectDB = require('./db/connect')
@@ -18,6 +19,7 @@ app.use(morgan('tiny'));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(cors())
+app.use(fileUpload({ useTempFiles: true }))
 
 app.get('/',(req,res)=>{
     console.log(req.signedCookies);
