@@ -15,7 +15,7 @@ const getProductDetails= async(req,res)=>{
     if(!mongoose.Types.ObjectId.isValid(req.params.id)){
         throw new CustomAPIError.NotFoundError('The product is not found or the id is invalid')
     }
-    const product = await Product.findOne({_id:req.params.id});
+    const product = await Product.findOne({_id:req.params.id}).populate('reviews');
     if(!product){
         throw new CustomAPIError.NotFoundError(`Product with ${req.params.id} not found!`);
     }

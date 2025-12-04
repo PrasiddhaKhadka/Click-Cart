@@ -7,7 +7,14 @@ const { checkPermission } = require('../utils');
 
 
 const getReviews = async(req,res)=>{
-    const reviews = await Review.find({})
+    const reviews = await Review.find({}).populate({
+        path:'product',
+        select:'name'
+    })
+    .populate({
+        path:'user',
+        select:'name'
+    });
     res.status(StatusCodes.OK).json({
         msg:'Success',
         body:reviews,
@@ -81,10 +88,19 @@ const deleteReview = async(req,res)=>{
 }
 
 
+
+const getSingleProductReview = async(req,res)=>{
+    const { id: productId} = req.params;
+    const reviews = await Review.find({product:productId})
+    res.status(StatusCodes.OK).json({reviews,count:reviews.length})
+}
+
+
 module.exports={
     getReview,
     getReviews,
     postReview,
     updateReview,
-    deleteReview
+    deleteReview,
+    getSingleProductReview
 }
