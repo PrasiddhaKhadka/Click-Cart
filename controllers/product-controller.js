@@ -46,11 +46,12 @@ const updateProduct = async(req,res)=>{
 
 const deleteProduct = async(req,res)=>{
     const { id: productId} = req.params;
-    const product = await Product.findByIdAndDelete({_id:productId})
+    const product = await Product.findOne({_id:productId});
     if(!product){
         throw new CustomAPIError.NotFoundError(`No product with id: ${productId}`)
     }
-    res.status(StatusCodes.OK).json({status:"Success",body:product})
+    await product.deleteOne()
+    res.status(StatusCodes.OK).json({msg:"Success, Product removed."})
 }
 
 const uploadProductImage = async(req,res)=>{

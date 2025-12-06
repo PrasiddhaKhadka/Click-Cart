@@ -63,7 +63,7 @@ const updateReview = async(req,res)=>{
     const review = await Review.findOne({ _id: reviewId });
 
     if(!review){
-        throw new CustomAPIError.NotFoundError(`Review with this ${id} not found`)
+        throw new CustomAPIError.NotFoundError(`Review with this ${reviewId} not found`)
     }
 
     checkPermission(req.user, review.user)
@@ -78,12 +78,12 @@ const updateReview = async(req,res)=>{
 
 const deleteReview = async(req,res)=>{
     const {id} = req.params;
-    const review = await Review.findOne(id)
+    const review = await Review.findOne({_id:id})
     if(!review){
          throw new CustomAPIError.NotFoundError('The review for this prodcut has already been deleted')
     }
     checkPermission(req.user, review.user)
-    await review.remove();
+    await review.deleteOne();
     res.status(StatusCodes.OK).json({ msg: 'Success! Review removed' });
 }
 
